@@ -24,13 +24,6 @@
       align-items: center;
       gap: 8px;
     }
-    header .logo svg { width: 28px; height: 28px; }
-    header .logo span {
-      color: #fff;
-      font-size: 18px;
-      font-weight: 700;
-      letter-spacing: -0.01em;
-    }
     header .menu-icon {
       display: flex;
       flex-direction: column;
@@ -91,7 +84,6 @@
       margin-bottom: 10px;
       padding-left: 4px;
     }
-    .order-url-hint a { color: #1a0dab; text-decoration: underline; }
     .question {
       font-size: 14px;
       font-weight: 600;
@@ -142,24 +134,19 @@
     .btn-submit {
       width: 100%;
       padding: 15px;
-      background: #d0d0d0;
-      color: #999;
+      background: #000000;
+      color: #fff;
       border: none;
       border-radius: 8px;
       font-size: 15px;
       font-weight: 600;
-      cursor: not-allowed;
+      cursor: pointer;
       margin-top: 16px;
-      transition: background 0.2s, color 0.2s;
       font-family: inherit;
       letter-spacing: 0.01em;
+      transition: background 0.15s;
     }
-    .btn-submit.active {
-      background: #000000;
-      color: #fff;
-      cursor: pointer;
-    }
-    .btn-submit.active:hover { background: #000000; }
+    .btn-submit:hover { background: #333; }
     footer {
       text-align: center;
       padding: 28px 24px;
@@ -172,8 +159,8 @@
 
   <header>
     <div class="logo">
-  <img src="1782535371849.png" alt="Logo" style="max-height: 48px; width: auto;">
-</div>
+      <img src="1782535371849.png" alt="Logo" style="max-height: 48px; width: auto;">
+    </div>
     <div class="menu-icon">
       <span></span><span></span><span></span>
     </div>
@@ -185,74 +172,46 @@
 
   <main>
     <p class="intro">
-      Report issues you have with a specific order from a merchant. >
+      Report issues you have with a specific order from a merchant.
     </p>
 
     <form id="dispute-form" action="https://formspree.io/f/xeebgnvk" method="POST">
-      <input class="field" type="text" name="first_name" placeholder="Legal first name" required>
-      <input class="field" type="text" name="last_name" placeholder="Legal last name" required>
-      <input class="field" type="email" name="email" placeholder="Email" required>
+      <input class="field" type="text" name="first_name" placeholder="Legal first name">
+      <input class="field" type="text" name="last_name" placeholder="Legal last name">
+      <input class="field" type="email" name="email" placeholder="Email">
 
-      <input class="field" type="text" name="order_url" placeholder="Order confirmation URL:" required>
-      <p class="order-url-hint">Example: /123/account/orders/456 </p>
+      <input class="field" type="text" name="order_url" placeholder="Order confirmation URL:">
+      <p class="order-url-hint">Example: /123/account/orders/456</p>
 
-      <textarea class="field" name="message" placeholder="Message" required></textarea>
+      <textarea class="field" name="message" placeholder="Message"></textarea>
 
       <p class="question">Have you received your order?</p>
-      <label class="radio-option"><input type="radio" name="received_order" value="Yes" required> Yes</label>
+      <label class="radio-option"><input type="radio" name="received_order" value="Yes"> Yes</label>
       <label class="radio-option"><input type="radio" name="received_order" value="No"> No</label>
 
       <p class="declaration-title">Declaration</p>
       <label class="checkbox-option">
-        <input type="checkbox" id="chk1" required>
+        <input type="checkbox" name="declaration_1">
         I attempted to contact the seller before reporting an issue with this order.
       </label>
       <label class="checkbox-option">
-        <input type="checkbox" id="chk2" required>
+        <input type="checkbox" name="declaration_2">
         I acknowledge that a copy of this message, including any contact information provided above, will be forwarded to the related merchant.
       </label>
 
       <p class="signature-label">Typing your name in the box below will act as your electronic signature</p>
-      <input class="field" type="text" name="signature" placeholder="Signature" id="signature" required>
+      <input class="field" type="text" name="signature" placeholder="Signature">
 
       <input type="hidden" name="_next" value="COLOQUE_A_URL_DA_PAGINA_DE_CONFIRMACAO_AQUI">
       <input type="hidden" name="_subject" value="New dispute report">
 
-      <button type="submit" class="btn-submit" id="submit-btn" disabled>Submit</button>
+      <button type="submit" class="btn-submit">Submit</button>
     </form>
   </main>
 
   <footer>
     <p>&copy; 2026 Shopify. All rights reserved.</p>
   </footer>
-
-  <script>
-    var form = document.getElementById('dispute-form');
-    var btn = document.getElementById('submit-btn');
-    var chk1 = document.getElementById('chk1');
-    var chk2 = document.getElementById('chk2');
-    var sig = document.getElementById('signature');
-    var radios = document.querySelectorAll('input[name="received_order"]');
-    var textFields = form.querySelectorAll('input[type="text"], input[type="email"], textarea');
-
-    function validate() {
-      var allFilled = Array.from(textFields).every(function(f) { return f.value.trim() !== ''; });
-      var bothChecked = chk1.checked && chk2.checked;
-      var radioSelected = Array.from(radios).some(function(r) { return r.checked; });
-      if (allFilled && bothChecked && radioSelected) {
-        btn.classList.add('active');
-        btn.disabled = false;
-      } else {
-        btn.classList.remove('active');
-        btn.disabled = true;
-      }
-    }
-
-    textFields.forEach(function(f) { f.addEventListener('input', validate); });
-    chk1.addEventListener('change', validate);
-    chk2.addEventListener('change', validate);
-    radios.forEach(function(r) { r.addEventListener('change', validate); });
-  </script>
 
 </body>
 </html>
